@@ -1,8 +1,8 @@
-From docker pull maven:3-eclipse-temurin-17 AS build
+From maven:3.8.5-openjdk-17 AS build
 COPY . .
 RUN mvn clean package -DskipTests
 
-From eclipse-temurin:17-alpine
-COPY --from=build target/*.jar demo.jar
+From openjdk:17.0.1-jdk-slim
+COPY --from-build /target/Hackentine-0.0.1-SNAPSHORT.jar Hackentine.jar
 EXPOSE 8080
-ENTRYPOINT ["java","-jar","demo.jar"]
+ENTRYPOINT ["java","-jar","Hackentine.jar"]
